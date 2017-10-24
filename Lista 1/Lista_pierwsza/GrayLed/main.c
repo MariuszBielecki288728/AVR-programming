@@ -14,13 +14,13 @@
 
 
 void display(int8 num){
-	PORTB = num;
+	PORTC = num;
 }
 
 int main(void)
 {
 	//setup
-	DDRB = 0b00001111; // 4 * LED 
+	DDRC = 0b00001111; // 4 * LED 
 	
 	int8 num = 0;
 	display(0);
@@ -31,20 +31,20 @@ int main(void)
 			_delay_ms(20);
 			
 			//NEXT
-			if(PINC & NEXT) {
+			if(PINB & NEXT) {
 				flag_button = 1;
 			}
 			//PREV
-			else if(PINC & PREV) {
+			else if(PINB & PREV) {
 				flag_button = 2;
 			}
 			//RESET
-			else if(PINC & RESET) {
+			else if(PINB & RESET) {
 				flag_button = 3;
 			}
 		}
 	if (flag_button){
-		if (PINC == 0){
+		if (PINB == 0){
 			switch(flag_button){
 				case 1:
 					if (num == 15){
