@@ -8,30 +8,35 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#define SPEAKER_DDR DDRB 
-#define SPEAKER PORTB1
+#define SPEAKER_DDR DDRD 
+#define SPEAKER PORTD6
 #define int8 uint8_t
 
-#define E 51425 //s(b)
-#define F 45814
-#define G 40816
-#define A 38525 //s (b)
-#define B 34321 //s (b)
-#define C 15288          //30577
-#define D 13620          //27241
-#define E1 12856 //s (b) //25712 
-#define F1 11453         //22907
-#define G1 10204         //20408
-//#define A1 9630  //s (b) //19262
-
+#define E 99 //s
+#define F 89
+#define G 79
+#define A 74 //s
+#define B 66 //s
+#define C 59
+#define D 52
+#define E1 49 //s
+#define E1P 46
+#define F1 44
+#define G1 39
+#define A1 37 //s
+#define A1P 34
+#define B1 32 //s
+#define B1P 31
+#define C1 29
+#define P  1
 static inline void initTimer(void) {
-	TCCR1A |= (1 << WGM12); /* CTC mode */
-	TCCR1A |= (1 << COM1A0); /* Toggles pin each cycle through */
-	TCCR1B |= (1 << CS10); /* CPU clock / 1 */
+	TCCR0A |= (1 << WGM01); /* CTC mode */
+	TCCR0A |= (1 << COM0A0); /* Toggles pin each cycle through */
+	TCCR0B |= (1 << CS02); /* CPU clock / 256 */
 }
-static inline void playNote(int wavelength, int duration) {
-	if (wavelength) {
-		OCR1A = wavelength; /* set pitch */
+static inline void playNote(int8 wavelength, int duration) {
+	if (wavelength != 1) {
+		OCR0A = wavelength; /* set pitch */
 		SPEAKER_DDR |= (1 << SPEAKER); /* enable output on speaker */
 	}
 	while (duration) { /* Variable delay */
@@ -40,33 +45,89 @@ static inline void playNote(int wavelength, int duration) {
 	}
 	SPEAKER_DDR &= ~(1 << SPEAKER); /* turn speaker off */
 }
-void playSong(int song[], int dur[], int tempo){
+void playSong(int8 song[], int8 dur[], int tempo){
 	int length_16_note = tempo;
 	for( int8 i = 0; song[i] ; i++){
 		playNote(song[i], dur[i]*length_16_note);
-		_delay_ms(20);
+		_delay_ms(15);
 	}
 }
 
 int main(void)
 {
-	int song[] = //{C, E1, F1, F1, E1, E1, F1, 0};
-		{ E, A, C, B, A, E, D, B,
-		A, C, B, G, B, E, E,
-		A, C, B, A, E, G, F, F, C,
-		F, E, E, E, C, A, C, 0};
+	//TODO MOZESZ ZROBIC CO 2 WARTOSC w tablicy dlugosc
+
+	int8 song1[] = {
+		C, E1, F1, F1, E1, E1, F1, 
+		F1, F1, B1, A1, G1, F1, G1, G1,
+		G1, B1, C1, C1, F1, F1, E1,
+		B1, B1, G1, B1, B1, B1, C1, 0};
+	int8 song2[] = {
+		C1, E1, F1, F1, E1, E1, F1,		           
+		F1, F1, B1, A1, G1, F1, G1, G1,		
+		G1, B1, C1, C1, F1, F1, E1,		
+		B1, B1, G1, B1, B1, B1, C1, C1, 0
 		
-	int dur[] = //{4, 4, 2, 1, 2, 1, 2 };
-		{8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-		 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-		 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
+	 };
+	 int8 song3[] = { 
+		 P,  E1, B,  B,  P,  E1,		 
+		 E1, F1, B,  B,  P,  B,		 
+		 G1, A1, G1, F1, E1, F1,		 
+		 G1, A1, G1, C,  P,  B,  C,		 
+		 E1, E1, D,  D,  P,  E1, F1,		 
+		 A1, G1, F1, E1, P,  F1,		 
+		 G1, F1, E1P, F1, G1, A1,		 
+		 G1, P, 0	 
+	         };
+	int8 song4[] = {
+		E1, E1, D, E1, E1, D,		
+		F1, F1, E1, D, C, D,		
+		E1, E1, D,  F1, E1, C,		
+		F1, G1, A1, B1,		
+		E1, E1, D, E1, E1, D,		
+		F1, F1, E1, D, E1, F1,		
+		G1, A1, G1, F1, E1, F1,		
+		G1, G1, A1P, B1P,0
+	               //?
+	};
+		
+	int8 dur1[] = {
+		4, 4,  2,  1,  2,  1,  2,
+		2,  2,  2,  2,  1,  2,  4, 1,
+		4,  4,  2,  1,  2,  1,  2,
+		2,  2,  2,  2,  2,  1,  13 };
+	int8 dur2[] = {4,  4,  2,  1,  2,  1,  2,
+				  2,  2,  2,  2,  1,  2,  4,  1,
+				  4,  4,  2,  1,  2,  1,  2,
+				  2,  2,  2,  2,  2,  1,  4,  1 
+	};
+	int8 dur3[] = {4,  2,  1,  5,  2,  2,
+		3,  3,  2,  4,  2,  2,
+		3,  3,  2,  3,  3,  2,
+		3,  3,  1,  4,  2,  1,  1,
+		3,  3,  2,  4,  2,  1,  1,
+		3,  3,  2,  4,  2,  2,
+		3,  3,  2,  3,  3,  2,
+		12, 4};
+	int8 dur4[] = {
+		3,  3,  2, 3,  3,  2,
+		3,  3,  2, 3,  3,  2,
+		3,  3,  2, 3,  3,  2,
+		4,  4,  4,  4,
+		3,  3,  2, 3,  3,  2,
+		3,  3,  2, 3,  3,  2,
+		3,  3,  2, 3,  3,  2,
+		8,  3,  3,  2};
+
 	
 	initTimer();
 	/* Replace with your application code */
 	while (1)
 	{
-		//playSong(song, dur, 150);
-		_delay_ms(1000);
+		playSong(song1, dur1, 150);
+		playSong(song2, dur2, 125);
+		playSong(song3, dur3, 150);
+		playSong(song4, dur4, 125);
 	}
 }
 

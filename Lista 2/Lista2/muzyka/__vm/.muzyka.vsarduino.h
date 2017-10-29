@@ -19,8 +19,8 @@
 #define ARDUINO_AVR_UNO
 #define ARDUINO_ARCH_AVR
 static inline void initTimer(void);
-static inline void playNote(int wavelength, int duration);
-void playSong(int song[], int dur[], int tempo);
+static inline void playNote(int8 wavelength, int duration);
+void playSong(int8 song[], int8 dur[], int tempo);
 int main(void);
 
 #include "pins_arduino.h" 
