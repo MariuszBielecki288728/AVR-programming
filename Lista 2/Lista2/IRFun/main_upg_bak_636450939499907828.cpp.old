@@ -1,0 +1,18 @@
+/*
+ * IRFun.cpp
+ *
+ * Created: 01.11.2017 00:45:35
+ * Author : manie
+ */ 
+
+#include <avr/io.h>
+
+
+int main(void)
+{
+    /* Replace with your application code */
+    while (1) 
+    {
+    }
+}
+

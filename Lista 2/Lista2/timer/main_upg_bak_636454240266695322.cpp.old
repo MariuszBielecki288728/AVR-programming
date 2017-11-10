@@ -1,0 +1,18 @@
+/*
+ * timer.cpp
+ *
+ * Created: 04.11.2017 20:26:40
+ * Author : manie
+ */ 
+
+#include <avr/io.h>
+
+
+int main(void)
+{
+    /* Replace with your application code */
+    while (1) 
+    {
+    }
+}
+

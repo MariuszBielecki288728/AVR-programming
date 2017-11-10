@@ -1,0 +1,18 @@
+/*
+ * RGBLED.cpp
+ *
+ * Created: 31.10.2017 19:52:03
+ * Author : manie
+ */ 
+
+#include <avr/io.h>
+
+
+int main(void)
+{
+    /* Replace with your application code */
+    while (1) 
+    {
+    }
+}
+

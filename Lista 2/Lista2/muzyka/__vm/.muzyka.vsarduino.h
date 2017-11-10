@@ -19,8 +19,8 @@
 #define ARDUINO_AVR_UNO
 #define ARDUINO_ARCH_AVR
 void initTimer(void);
-void playNote(int8 wavelength, int duration);
-static inline void playSong( int8 *song, uint16_t tempo);
+void playNote(int8 wavelength, int16 duration);
+void playSong( int8 *song, int16 tempo);
 int main(void);
 
 #include "pins_arduino.h" 
