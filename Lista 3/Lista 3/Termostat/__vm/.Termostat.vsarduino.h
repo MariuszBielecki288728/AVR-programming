@@ -21,7 +21,7 @@
 void uart_init();
 int uart_transmit(char data, FILE *stream);
 int uart_receive(FILE *stream);
-static inline void initADC0(void);
+void initADC0(void);
 int main(void);
 
 #include "pins_arduino.h" 

@@ -1,24 +1,17 @@
 /*
- * Termostat.ino
+ * zad4.ino
  *
- * Created: 11/19/2017 3:40:19 AM
+ * Created: 11/23/2017 9:44:03 PM
  * Author: manie
  */ 
-
 #include <avr/io.h>
 #include <util/delay.h>
 #include <inttypes.h>
 #define _BV(X) (1 << X)
 #define BAUD 9600                          // baudrate
 #define UBRR_VALUE ((F_CPU)/16/(BAUD)-1)   // zgodnie ze wzorem
-#define TR_BASE PORTB0
-#define TR_EMITTER PORTD7
-#define TR_BASE_DDR DDRB
-#define TR_EMITTER_DDR DDRD
 
-//temps
-#define TEMP_SETPOINT 30
-#define TEMP_TOLERANCE 3
+
 
 // inicjalizacja UART
 void uart_init()
@@ -52,49 +45,51 @@ int uart_receive(FILE *stream)
 
 FILE uart_file;
 
-void initADC0(void) {
-	ADMUX |= (1 << REFS0) | (1 << REFS1); // refvol on 1.1v 
-	ADCSRA |= (1 << ADPS1) | (1 << ADPS0); // ADC clock /8
-	ADCSRA |= (1 << ADEN); // enable ADC 
+
+
+ void initADC0(void) {
+	ADMUX |= (1 << REFS0); // ref vol on AVCC
+	ADMUX |= (1 << MUX3) | (1 << MUX2) | (1 << MUX1); //input channel on 1.1v
+	ADCSRA |= (1 << ADPS2) | (1 << ADPS1);// ADC clock /64
+	ADCSRA |= (1 << ADEN); //enable ADC
 }
 
 int main(void)
 {
-	uint16_t adc_value;
-	int16_t temp;
-	uint8_t temp_off_flag = 0;
-	DDRD |= (1 << PORTD6);
-	DDRB |= (1 << PORTB3);
-	PORTB |= (1 << PORTB3);
-	//zainicjuj adc0
-	initADC0();
+	
+	
+	
 	// zainicjalizuj UART
 	uart_init();
 	// skonfiguruj strumienie wejœcia/wyjœcia
 	fdev_setup_stream(&uart_file, uart_transmit, uart_receive, _FDEV_SETUP_RW);
 	stdin = stdout = stderr = &uart_file;
+	initADC0();
+	DDRD |= (1 << PORTD6);
+	uint16_t adc_value;
+	float v_ref;
+
 	while (1)
-	{	//turn heat off
-		PORTD = 0;
-		_delay_ms(1);
+	{
+		//heater off
+		ADCSRA |= (1 << ADSC);
+		while (ADCSRA & (1 << ADSC)); 
+		adc_value = ADC;
+		v_ref = 1.1 * 1024 / adc_value;
+		printf("milivolts~~: %" PRIi16 "\n", (int16_t)(v_ref*1000));		
+		PORTD |= (1 << PORTD6); //turn heater on
 		
+		_delay_ms(500);
+		
+		//heater on
 		ADCSRA |= (1 << ADSC);
 		while (ADCSRA & (1 << ADSC));
 		adc_value = ADC;
+		v_ref = 1.1 * 1024 / adc_value;
+		printf("milivolts: %" PRIi16 "\n", (int16_t)(v_ref*1000));
+		PORTD = 0; //turn heater off
 		
-		temp = (adc_value - 500) / 10;
-		printf("temp: %" PRIi16 "\n", (int16_t)temp);
-		
-		if (temp < TEMP_SETPOINT){
-			temp_off_flag = 0;
-		}else if(temp >= TEMP_SETPOINT + TEMP_TOLERANCE ){
-			PORTB = 0; //turn led off
-			temp_off_flag = 1;
-		}
-		if (!temp_off_flag){
-			PORTD |= (1 << PORTD6); //turn heat on
-			PORTB |= (1 << PORTB3); //turn led on
-		}
 		_delay_ms(500);
+		
 	}
 }
