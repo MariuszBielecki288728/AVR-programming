@@ -7,6 +7,10 @@ Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "LightSensor", "LightSensor\
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Termostat", "Termostat\Termostat.cppproj", "{482BC745-77F6-4A78-97E3-F476A75B1260}"
 EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "zad4", "zad4\zad4.cppproj", "{97FDA1EC-7FEF-47EB-B9ED-C1E1483113AA}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "termistor", "termistor\termistor.cppproj", "{C73A1D09-3DBF-4B72-BC79-EB9E1DAB3F98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -21,6 +25,14 @@ Global
 		{482BC745-77F6-4A78-97E3-F476A75B1260}.Debug|AVR.Build.0 = Debug|AVR
 		{482BC745-77F6-4A78-97E3-F476A75B1260}.Release|AVR.ActiveCfg = Release|AVR
 		{482BC745-77F6-4A78-97E3-F476A75B1260}.Release|AVR.Build.0 = Release|AVR
+		{97FDA1EC-7FEF-47EB-B9ED-C1E1483113AA}.Debug|AVR.ActiveCfg = Debug|AVR
+		{97FDA1EC-7FEF-47EB-B9ED-C1E1483113AA}.Debug|AVR.Build.0 = Debug|AVR
+		{97FDA1EC-7FEF-47EB-B9ED-C1E1483113AA}.Release|AVR.ActiveCfg = Release|AVR
+		{97FDA1EC-7FEF-47EB-B9ED-C1E1483113AA}.Release|AVR.Build.0 = Release|AVR
+		{C73A1D09-3DBF-4B72-BC79-EB9E1DAB3F98}.Debug|AVR.ActiveCfg = Debug|AVR
+		{C73A1D09-3DBF-4B72-BC79-EB9E1DAB3F98}.Debug|AVR.Build.0 = Debug|AVR
+		{C73A1D09-3DBF-4B72-BC79-EB9E1DAB3F98}.Release|AVR.ActiveCfg = Release|AVR
+		{C73A1D09-3DBF-4B72-BC79-EB9E1DAB3F98}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
