@@ -1,0 +1,18 @@
+/*
+ * InterruptBuff.cpp
+ *
+ * Created: 02.12.2017 16:41:27
+ * Author : manie
+ */ 
+
+#include <avr/io.h>
+
+
+int main(void)
+{
+    /* Replace with your application code */
+    while (1) 
+    {
+    }
+}
+
