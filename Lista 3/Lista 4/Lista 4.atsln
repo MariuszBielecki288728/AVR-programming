@@ -9,6 +9,8 @@ Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "zad1", "zad1\zad1.cppproj",
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Zad3", "Zad3\Zad3.cppproj", "{CAC601D5-E2D1-4058-993A-C7973A23EF54}"
 EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "zad4", "zad4\zad4.cppproj", "{D4E02C7F-AAD6-4272-BB18-FE015BC54CE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -27,6 +29,10 @@ Global
 		{CAC601D5-E2D1-4058-993A-C7973A23EF54}.Debug|AVR.Build.0 = Debug|AVR
 		{CAC601D5-E2D1-4058-993A-C7973A23EF54}.Release|AVR.ActiveCfg = Release|AVR
 		{CAC601D5-E2D1-4058-993A-C7973A23EF54}.Release|AVR.Build.0 = Release|AVR
+		{D4E02C7F-AAD6-4272-BB18-FE015BC54CE2}.Debug|AVR.ActiveCfg = Debug|AVR
+		{D4E02C7F-AAD6-4272-BB18-FE015BC54CE2}.Debug|AVR.Build.0 = Debug|AVR
+		{D4E02C7F-AAD6-4272-BB18-FE015BC54CE2}.Release|AVR.ActiveCfg = Release|AVR
+		{D4E02C7F-AAD6-4272-BB18-FE015BC54CE2}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

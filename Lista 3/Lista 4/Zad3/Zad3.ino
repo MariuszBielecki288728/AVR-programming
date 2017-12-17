@@ -36,18 +36,20 @@ volatile char received_character;
 ISR(USART_RX_vect)
 {
 	received_character = UDR0;
-	UCSR0A &= ~(1 << RXC0);
-	//w³¹cz przerwanie na UDRE0
-	UCSR0B |= (1 << UDRIE0);
+	UDR0 = received_character;
+	//turn off this interrupt
+	//UCSR0A &= ~(1 << RXC0);
+	//turn on interrupt on UDRE0
+	//UCSR0B |= (1 << UDRIE0);
 }
 
 //UDR ready interrupt
-ISR(USART_UDRE_vect)
-{
-	UDR0 = received_character;
-	//wy³¹cz przerwanie na UDRE0
-	UCSR0B &= ~(1 << UDRIE0);
-}
+// ISR(USART_UDRE_vect)
+// {
+// 	UDR0 = received_character;
+// 	//turn off interrupt on UDRE0
+// 	UCSR0B &= ~(1 << UDRIE0);
+// }
 
 
 
@@ -57,6 +59,9 @@ int main(void)
 	
 	//sleep mode select - IDLE
 	set_sleep_mode(SLEEP_MODE_IDLE);
+	//set power reduction register
+	PRR |= ~(1 << PRUSART0);
+	
 	// enable global interrupts
 	sei();
 	
@@ -64,6 +69,6 @@ int main(void)
 	
 	while (1)
 	{
-		sleep_enable();
+		sleep_mode();
 	}
 }
