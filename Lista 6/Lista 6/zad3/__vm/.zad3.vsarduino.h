@@ -18,13 +18,10 @@
 #define ARDUINO 10804
 #define ARDUINO_AVR_UNO
 #define ARDUINO_ARCH_AVR
-void uart_init();
-int uart_transmit(char data, FILE *stream);
-int uart_receive(FILE *stream);
-void send_data(uint8_t data);
-void init_spi();
+void initADC0(void);
+void initTimer(void);
 int main(void);
 
 #include "pins_arduino.h" 
 #include "Arduino.h"
-#include "zad1.ino"
+#include "zad3.ino"

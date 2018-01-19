@@ -1,13 +1,15 @@
+//TO JEST KOD DLA URZ¥DZENIA SLAVE
+//KOD DLA MASTER PRZYGOTOWA£ DANIEL DUBIEL
+
+
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <inttypes.h>
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 
-#define SCK_PORT PORTC0
-#define MISO_PORT PORTC1
-#define MOSI_PORT PORTC2
-#define LED PORTD7
+
 
 
 #define _BV(X) (1 << X)
@@ -50,41 +52,41 @@ FILE uart_file;
 
 
 
-volatile uint8_t czy_dobrze;
-volatile uint8_t to_powinno_byc;
-volatile uint8_t czy_sprawdzono;
+volatile int8_t podana_liczba;
+volatile int8_t wylosowana_liczba;
 ISR(SPI_STC_vect) 
 {
-	uint8_t val = SPDR;        //odbieramy wiadomoœæ
 	
-	czy_dobrze = (val == to_powinno_byc);
-	czy_sprawdzono = 1;
-	printf("should be: %" PRIu8 "\n", to_powinno_byc);
-	printf("received: %" PRIu8 "\n", val);
+	//int8_t val = SPDR;        //odbieramy wiadomoœæ
+	
 
-}
-//komentarze pochodz¹ z kodu z wikipedii o bit bangling
-void send_data(uint8_t data)
-{
 
-	// send bits 7..0
-	for (int i = 0; i < 8; i++)
+	if (SPDR != 0)
 	{
-		// set MOSI high if bit is 1, low if bit is 0
-		if (data & 0x80)
-			PORTC |= (1 << MOSI_PORT);
+		//SPDR zostanie wyslane przy kolejnym zapytaniu, a wiêc gdy master wyœle 0
+		if(SPDR == wylosowana_liczba)
+		{
+			SPDR = 2; //zgad³eœ!
+			wylosowana_liczba = rand()%100;
+		}
+		else if(SPDR > wylosowana_liczba)
+		{
+			SPDR = 1; //wylosowana jest mniejsza!
+		}
 		else
-			PORTC &= ~(1 << MOSI_PORT);
-
-		// pulse clock to indicate that bit value should be read
-		
-		PORTC |= (1 << SCK_PORT);
-		PORTC &= ~(1 << SCK_PORT);
-
-		// shift byte left so next bit will be leftmost
-		data <<= 1;
+		{
+			SPDR = 3; //wylosowana jest wiêksza!
+		}
+		//SPDR = -1;
 	}
-
+	else
+	{
+		SPDR = 0;
+	}
+	printf("received: %" PRId8 "\n", SPDR);
+	printf("los: %" PRId8 "\n", wylosowana_liczba);
+	
+	
 }
 
 void init_spi()
@@ -93,30 +95,25 @@ void init_spi()
 	SPCR = ( 1 << SPIE ) | ( 1 << SPE );    //W³¹czamy przerwania i SPI
 }
 
+
 int main(void)
-{ //PORTC0 - SCK PORTC1 - MISO PORTC2 - MOSI
-	DDRC |= (1 << SCK_PORT) | (1 << MOSI_PORT); // Miso stays on input
-	DDRD |= (1 << LED);
-	DDRB = 0;
+{
 	
+	
+	wylosowana_liczba = rand()%100;
 	// zainicjalizuj UART
 	uart_init();
 	// skonfiguruj strumienie wej?cia/wyj?cia
 	fdev_setup_stream(&uart_file, uart_transmit, uart_receive, _FDEV_SETUP_RW);
 	stdin = stdout = stderr = &uart_file;
-	
+	DDRB = 0;
 	init_spi();
+	SPDR = 0;
 	sei();
-	for (uint8_t i; i < UINT8_MAX; i++){
-		to_powinno_byc = i;
-		send_data(i);
-		while (!czy_sprawdzono);
-		if(!czy_dobrze){
-			PORTD |= (1 << LED);
-		}
-		czy_sprawdzono = 0;
-	}
+	//set_sleep_mode(SLEEP_MODE_IDLE);
+	
 	while(1)
 	{
+		//sleep_mode();
 	}
 }
