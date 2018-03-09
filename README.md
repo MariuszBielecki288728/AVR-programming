@@ -140,6 +140,29 @@ a drugą bez jego użycia (aktywnie czekając na wynik pomiaru w pętli).
 Dla obu serii policz wariancję pomiarów. Użycie trybu Noise Reduction wymaga odpowiedniej 
 konfiguracji rejestru SMCR, włączenia przerwania ADC oraz usypiania procesora w trakcie pomiaru.
 
+5.3 Zrealizuj za pomocą dwóch Arduino (zadanie można wykonać w dwie osoby) 
+grę typu zgadnij liczbę.
+Pierwsze Arduino (SPI slave) powinno wylosować liczbę M z zakresu 0-99, po czym 
+przy użyciu protokołu SPI odpowiadać na pytania – czy zadana liczba N jest mniejsza, 
+większa czy równa liczbie M? (Można to zrobić przez dwa zapytania na magistrali: 
+w pierwszym master podaje liczbę N, slave odsyła 0; w drugim master wysyła 0, 
+slave odsyła wartość 1/0/-1). Jeśli master zgadł, liczba M powinna zostać wylosowana ponownie.
+Drugie Arduino (SPI master) powinno odczytać przez UART liczbę N z komputera, 
+spytać o nią slave'a, po czym zaprezentować wynik (np. mignąć jedną z trzech diod i 
+napisać komunikat przez UART).
+5.4 Połącz przewodami wybrane cztery piny Arduino z pinami MISO, MOSI, SCK, SS. 
+Skonfiguruj kontroler SPI jako slave. Napisz program, który będzie programowo 
+(przez odczyty i zapisy wartości pinów – tak zwany bit-banging) pracował jako SPI master i 
+komunikował się z wbudowanym kontrolerem SPI (np. przesyłając kolejno liczby 1, 2, 3...). 
+Odbieraj dane z kontrolera SPI (rejestr SPDR) i sprawdzaj, 
+czy odebrane liczby są równe wysłanym.
+
+6.3 Napisz program, który używając sygnału PWM będzie sterował serwem modelarskim. 
+(W serwie z zestawu: czerwony przewód to zasilanie, czarny to ziemia, biały to sygnał sterujący) 
+Wychylenie serwa jest proporcjonalne do wypełnienia sygnału PWM, 
+należy zastosować częstotliwość ok. 50 Hz. Należy unikać skrajnych wartości wychylenia 
+– serwo można uszkodzić, nakazując mu obrót poza zakres! 
+Docelowa pozycja serwa ma być zadana przez potencjometr odczytywany przez ADC. 
 
 
 ```
