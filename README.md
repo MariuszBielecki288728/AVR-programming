@@ -25,7 +25,8 @@ na płytce stykowej, jak w serialu Nieustraszony (Knight Rider) albo oczy Cylon�
 Maksymalne punkty za elegancką realizację – wszystkie diody na jednym porcie mikrokontrolera, 
 przesuwanie zapalonych diod przez operacje bitowe.
 1.2 Zbuduj urządzenie które zapamiętuje naciśnięcia i zwolnienia przycisku przez użytkownika, 
-i odtwarza je zapalając i gasząc diodę z 1 sekundowym opóźnieniem. Podpowiedź: zastosuj bufor cykliczny. 
+i odtwarza je zapalając i gasząc diodę z 1 sekundowym opóźnieniem. Podpowiedź: 
+zastosuj bufor cykliczny. 
 1.3 Zbuduj wyświetlacz widmowy (ang. persistence of vision, PoV) 
 – zamontuj kilka diod LED jedna obok drugiej na płytce stykowej, i steruj nimi tak, 
 aby poruszając płytką w powietrzu pokazał się jakiś napis. 
@@ -86,7 +87,7 @@ zmierz czas (w cyklach) wykonywania różnych operacji matematycznych na różny
 Do pomiaru natężenia padającego światła należy wykorzystać fotorezystor (LDR) i ADC. 
 Aby otrzymać maksymalną ilość punktów, należy zadbać o liniowość pomiaru od rezystancji 
 fotorezystora
-3.2 Mierz rezystancję termistora przez ADC wybraną przez siebie metodą (możliwości jak w zadaniu 1).
+3.2 Mierz rezystancję termistora przez ADC wybraną przez siebie metodą.
 Wykonując pomiary w znanych temperaturach określ stałą B swojego termistora. 
 Napisz program, który będzie regularnie (np. co 1 sekundę) mierzył rezystancję 
 termistora i wypisywał przez UART wynik pomiaru temperatury (w stopniach Celsjusza).
@@ -110,6 +111,35 @@ Wyliczaj w programie wartość napięcia zasilającego (w woltach) i wypisuj prz
 (powinno wynosić około 5V). Złóż na płytce stykowej grzałkę z zadania 3. 
 Włączaj i wyłączaj grzałkę co sekundę; włączenie grzałki powinno powodować 
 zauważalny spadek zmierzonego napięcia zasilającego.
+
+
+
+4.1 Skonfiguruj wybrany timer, aby przepełniał się co sekundę. 
+Wykorzystując przerwania napisz program, który realizuje dwie funkcje:
+    Co sekundę przez UART ma być wypisywana liczba sekund, które minęły od ostatniego resetu;
+    Co sekundę powinna krótko (np. 1/20 sekundy) mignąć dioda świecąca.
+Zadbaj o to, aby program nie wykorzystywał aktywnego czekania; 
+czas pomiędzy zdarzeniami procesor powinien być uśpiony w celu redukcji poboru prądu. 
+(Czekanie 1/20 sekundy przez _delay_ms, oraz czekanie na dostępność UART do wysłania kolejnego 
+znaku w pętli while, są aktywnym czekaniem.)
+4.2 Wykorzystując przerwanie timera, i nie wykorzystując przerwania od przycisków, 
+napisz program, który zapamiętuje naciśnięcia i zwolnienia przycisku przez użytkownika, 
+i odtwarza je zapalając i gasząc diodę z 1 sekundowym opóźnieniem. 
+Główna pętla programu powinna zawierać wyłącznie nieskończoną pętlę z instrukcją uśpienia; 
+logika programu powinna być w procedurze obsługi przerwania timera. 
+4.3 Napisz program echo używający UART: odebrane znaki powinny być wysyłane na wyjście 
+w kolejności odebrania. Nie wykorzystuj standardowego wejścia/wyjścia C, używaj 
+bezpośrednio rejestru UDR0. Zapewnij maksymalną energooszczędność rozwiązania 
+– należy wykorzystać przerwania UART, uśpić mikrokontroler w głównej pętli programu 
+oraz wyłączyć zbędne podzespoły (timery, SPI, TWI, ADC).
+4.4 Napisz program, który zademonstruje wpływ trybu ADC Noise Reduction na dokładność 
+pomiarów przy użyciu ADC. Skonfiguruj przetwornik analogowo-cyfrowy, aby przy użyciu 
+napięcia zasilania jako Aref mierzył wbudowane napięcie referencyjne 1.1V. 
+W programie wykonaj dwie serie pomiarów przy użyciu ADC, jedną używając trybu Noise Reduction, 
+a drugą bez jego użycia (aktywnie czekając na wynik pomiaru w pętli). 
+Dla obu serii policz wariancję pomiarów. Użycie trybu Noise Reduction wymaga odpowiedniej 
+konfiguracji rejestru SMCR, włączenia przerwania ADC oraz usypiania procesora w trakcie pomiaru.
+
 
 
 ```
