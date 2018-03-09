@@ -31,5 +31,7 @@ i odtwarza je zapalając i gasząc diodę z 1 sekundowym opóźnieniem. Podpowie
 aby poruszając płytką w powietrzu pokazał się jakiś napis. 
 Maksymalne punkty za elegancką realizację – wszystkie diody na jednym porcie mikrokontrolera, 
 wyświetlenie kolumny jednym zapisem do portu, dane do wyświetlenia zapisane w tablicy.
-1.4 Zbuduj i zaprogramuj układ tłumaczący tekst na kod Morse’a. Tekst ma być wprowadzany na komputerze, a wynik ma zostać wyemitowany przy użyciu diody i brzęczyka podłączonych pod Arduino. Do odczytu tekstu można użyć biblioteki Serial z Arduinoalbo bezpośrednio przez rejestry UART. 
+1.4 Zbuduj i zaprogramuj układ tłumaczący tekst na kod Morse’a. 
+Tekst ma być wprowadzany na komputerze, a wynik ma zostać wyemitowany przy użyciu diody i brzęczyka 
+podłączonych pod Arduino. Do odczytu tekstu można użyć biblioteki Serial z Arduinoalbo bezpośrednio przez rejestry UART. 
 ```
